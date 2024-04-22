@@ -6,7 +6,7 @@
 /*   By: msloot <msloot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:48:52 by msloot            #+#    #+#             */
-/*   Updated: 2024/04/19 17:22:41 by msloot           ###   ########.fr       */
+/*   Updated: 2024/04/22 16:27:34 by msloot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	construct_char(bool bit, pid_t pid)
 	static size_t	i = 0;	// index of bit in whole byte (byte == 8 bit == 1 char)
 	static char		c = 0x00000000;  // (0x00000000 == 0 == byte 0000 0000)
 
-	fprintf(stderr, "%d: %d\n", pid, bit);
+	// fprintf(stderr, "%d: %d\n", pid, bit);
 
 	if (bit)	// if bit is true (true == 0x00000001 == 1)
 		c |= (1 << i);	// put bit at the right index, and merge it to c
