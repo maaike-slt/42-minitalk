@@ -6,13 +6,12 @@
 #    By: msloot <msloot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/14 19:19:04 by msloot            #+#    #+#              #
-#    Updated: 2024/04/17 16:30:10 by msloot           ###   ########.fr        #
+#    Updated: 2024/04/17 19:36:55 by msloot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =	minitalk
-NAMES = server
-NAMEC = client
+NAME_SERVER = server
+NAME_CLIENT = client
 CC = 	cc
 AR =	ar rcs
 RM = 	rm -rf
@@ -85,7 +84,7 @@ endef
 #	RULES	#
 
 ifeq ($(UNAME), Linux)
-all:		launch $(NAME)
+all:		launch $(NAME_SERVER) $(NAME_CLIENT)
 	@printf "\n$(B)$(MAG)$(NAME) compiled$(D)\n"
 else
 all:
@@ -95,8 +94,11 @@ endif
 launch:
 	$(call progress_bar)
 
-$(NAME):	$(OBJ_SERVER) $(OBJ_CLIENT) $(LIBNAME)
-	$(CC) $(CFLAGS) $(OBJ_SERVER) $(OBJ_CLIENT) $(LIBNAME) $(LDFLAGS) -o $(NAME)
+$(NAME_SERVER):	$(OBJ_SERVER) $(LIBNAME)
+	$(CC) $(CFLAGS) $(OBJ_SERVER) $(LIBNAME) $(LDFLAGS) -o $(NAME_SERVER)
+
+$(NAME_CLIENT):	$(OBJ_CLIENT) $(LIBNAME)
+	$(CC) $(CFLAGS) $(OBJ_CLIENT) $(LIBNAME) $(LDFLAGS) -o $(NAME_CLIENT)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@) # 2> /dev/null || true
