@@ -6,7 +6,7 @@
 /*   By: msloot <msloot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:48:52 by msloot            #+#    #+#             */
-/*   Updated: 2024/04/22 16:27:34 by msloot           ###   ########.fr       */
+/*   Updated: 2024/04/23 11:36:33 by msloot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	put_server_pid(void)
 {
 	ft_putstr("server active, PID: [");
 	ft_putstr(Y_B_MAG);
-	ft_putnbr(getpid());
+	ft_putnbr_fd(getpid(), STDERR_FILENO);
 	ft_putstr(Y_RESET);
 	ft_putstr("]\n");
 }
