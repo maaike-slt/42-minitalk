@@ -6,14 +6,13 @@
 #    By: msloot <msloot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/14 19:19:04 by msloot            #+#    #+#              #
-#    Updated: 2024/04/22 16:34:17 by msloot           ###   ########.fr        #
+#    Updated: 2024/04/25 21:54:20 by msloot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_SERVER = server
 NAME_CLIENT = client
 CC = 	cc
-AR =	ar rcs
 RM = 	rm -rf
 
 CFLAGS =	-Wall -Werror -Wextra
@@ -21,8 +20,6 @@ CFLAGS =	-Wall -Werror -Wextra
 # CFLAGS +=	-fsanitize=address
 
 UNAME = $(shell uname)
-
-LDFLAGS	=	-lXext -lX11 -lm
 
 # **************************************************************************** #
 #	MAKEFILE	#
@@ -83,42 +80,32 @@ endef
 # *************************************************************************** #
 #	RULES	#
 
-ifeq ($(UNAME), Linux)
-all:		launch $(NAME_SERVER) $(NAME_CLIENT)
-	@printf "\n$(B)$(MAG)$(NAME) compiled$(D)\n"
-else
-all:
-	@echo "$(B)$(RED)Error: Only Linux supported.$(D)"
-endif
-
-launch:
-	$(call progress_bar)
+all:		$(NAME_SERVER) $(NAME_CLIENT)
 
 $(NAME_SERVER):	$(OBJ_SERVER) $(LIBNAME)
 	$(CC) $(CFLAGS) $(OBJ_SERVER) $(LIBNAME) $(LDFLAGS) -o $(NAME_SERVER)
+	@printf "$(B)$(MAG)$(NAME_SERVER) compiled$(D)\n"
 
 $(NAME_CLIENT):	$(OBJ_CLIENT) $(LIBNAME)
 	$(CC) $(CFLAGS) $(OBJ_CLIENT) $(LIBNAME) $(LDFLAGS) -o $(NAME_CLIENT)
+	@printf "$(B)$(MAG)$(NAME_CLIENT) compiled$(D)\n"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@) # 2> /dev/null || true
 	$(CC) $(CFLAGS) $(LIBINC) -I$(INC) -c $< -o $@
-	@printf "█"
 
 $(LIBNAME):
-	@printf "$(D)$(B)$(BLU)\n$(NAME) objects compiled\n\n$(D)"
-	@$(MAKE) -C $(LIBPATH) CFLAGS+=-DWITH_OPEN=1
+	@$(MAKE) -C $(LIBPATH)
+	@printf "\n"
 
 clean:
 	@$(RM) $(OBJ_SERVER) $(OBJ_CLIENT)
 	@$(MAKE) clean -C $(LIBPATH)
 	@echo "$(B)cleared$(D)"
 
-
 fclean:		clean
 	@$(RM) $(OBJ_PATH)
-	@$(RM) $(NAMES)
-	@$(RM) $(NAMEC)
+	@$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 	@$(MAKE) fclean -C $(LIBPATH)
 
 re:			fclean all
